@@ -13,6 +13,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var NEWSRouter = require('./routes/news-routes');
 var adminRouter = require('./routes/admin-routes')
+var filesRouter = require('./routes/files-routes')
 var app = express();
 app.use(cors());
 
@@ -37,6 +38,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/v1/news', NEWSRouter);
 app.use('/api/v1/admin', adminRouter);
+app.use('/api/v1/file', filesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
