@@ -11,9 +11,9 @@ const responseUtils = require('../util/responseUtil')
 
 const newsService = require('../services/news-services')
 
-router.post('/', Validator.validatorReqBody(ValidatorConfig.newsReqBodyValidatorConfig), async (req, res, next) => {
+router.post('/', Validator.validatorReqBody(ValidatorConfig.newsReqBodyValidatorConfig), author, async (req, res, next) => {
     try{
-        const id = "tester" //req.user.id
+        const id = req.user.id
         const payload = req.body
         const news = await newsService.create(payload, id)
         return responseUtils.createResponseWithJson(res, news)
@@ -39,16 +39,16 @@ router.get('/', Validator.validatorReqQuery(ValidatorConfig.newsReqQuerySortVali
     }
 })
 
-router.put('/:id',Validator.validatorReqPath(ValidatorConfig.newsReqPathValidatorConfig), Validator.validatorReqBody(ValidatorConfig.newsReqBodyValidatorConfig), async (req, res, next) => {
+router.put('/:id',Validator.validatorReqPath(ValidatorConfig.newsReqPathValidatorConfig), Validator.validatorReqBody(ValidatorConfig.newsReqBodyValidatorConfig), author, async (req, res, next) => {
 try {
     const id = req.params.id;
-//   const userId = req.user.id;
+    const userId = req.user.id;
     const payload = req.body;
     const isFoundProgram = await newsService.findByIdAll(id);
     if (!isFoundProgram) {
         return responseUtils.notFoundResponse(res,responseMessages.common.notFound('News'));
     }else{
-    await newsService.updateById(id, payload, "Tester Id")
+    await newsService.updateById(id, payload, userId)
     return responseUtils.updateResponse(res,responseMessages.common.updatedById('News',id));
 }
 } catch (err) {
@@ -57,16 +57,16 @@ try {
 });
 
 
-router.patch('/:id', Validator.validatorReqPath(ValidatorConfig.newsReqPathValidatorConfig), Validator.validatorReqBody(ValidatorConfig.newsReqBodyPatchValidatorConfig), async (req, res, next) => {
+router.patch('/:id', Validator.validatorReqPath(ValidatorConfig.newsReqPathValidatorConfig), Validator.validatorReqBody(ValidatorConfig.newsReqBodyPatchValidatorConfig), author, async (req, res, next) => {
 try {
     const id = req.params.id;
-    // const userId = req.user.id;
+    const userId = req.user.id;
     const payload = req.body;
     const isFoundProgram = await newsService.findByIdAll(id);
     if (!isFoundProgram) {
         return responseUtils.notFoundResponse(res,responseMessages.common.notFound('News'));
     }else{
-    await newsService.updateById(id, payload, "Tester userId")
+    await newsService.updateById(id, payload, userId)
     return responseUtils.updateResponse(res,responseMessages.common.updatedById('News'));
     }
 } catch (err) {
@@ -75,15 +75,15 @@ try {
 });
 
 
-router.delete('/:id', Validator.validatorReqPath(ValidatorConfig.newsReqPathValidatorConfig), async (req, res, next) => {
+router.delete('/:id', Validator.validatorReqPath(ValidatorConfig.newsReqPathValidatorConfig), author, async (req, res, next) => {
 try {
     const id = req.params.id;
-//   const userId = req.user.id;
+    const userId = req.user.id;
     const isFoundProgram = await newsService.findByIdAll(id);
     if (!isFoundProgram) {
         return responseUtils.notFoundResponse(res,responseMessages.common.notFound('News'));
     }else{
-    await newsService.deleteById(id, "Tester userId");
+    await newsService.deleteById(id, userId);
     return responseUtils.deleteResponse(res,responseMessages.common.deletedById('News'));
     }
 } catch (err) {
