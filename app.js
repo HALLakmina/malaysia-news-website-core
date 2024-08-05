@@ -11,10 +11,11 @@ var mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+var NEWSRouter = require('./routes/news-routes');
 var app = express();
 app.use(cors());
 
+main().catch(err => console.log(err));
 
 async function main(){
   await mongoose.connect(process.env.MONGODB_URL);
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/v1/news', NEWSRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
