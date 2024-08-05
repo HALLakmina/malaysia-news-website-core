@@ -1,5 +1,17 @@
 const Joi = require('joi')
 
+const createAdminReqBodyValidatorConfig ={
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(8).required()
+}
+
+const signInAdminReqBodyValidatorConfig = {
+    email: Joi.string().email().required(),
+    password: Joi.string().min(8).required()
+}
+
 const newsReqBodyValidatorConfig = {
     topic: Joi.string().required(),
     description: Joi.string().required(),
@@ -31,6 +43,8 @@ const newsReqBodyPatchValidatorConfig = {
 }
 
 module.exports ={
+    createAdminReqBodyValidatorConfig,
+    signInAdminReqBodyValidatorConfig,
     newsReqBodyValidatorConfig, 
     newsReqQuerySortValidatorConfig,
     newsReqPathValidatorConfig,

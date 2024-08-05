@@ -62,7 +62,7 @@ const updateById = async(id, data, userId) => {
     }
 }
 
-const deleteById = async (id) => {
+const deleteById = async (id, userId) => {
     try{
         const deleteNEWS = await NEWS.findOneAndDelete(
             { _id: id }

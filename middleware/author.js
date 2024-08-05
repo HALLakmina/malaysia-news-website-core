@@ -6,13 +6,13 @@ const responseUtils = require('../util/responseUtil')
 const JWT_SECRET  = process.env.JWT_SECRET;
 
 const verifyToken = async (req, res, next) => {
-    const access_token = req.headers["access-token"];
+    const admin_access_token = req.headers["admin-access-token"];
 
-    if(!access_token){
+    if(!admin_access_token){
         return responseUtils.validationErrorResponse(res,`Token is required.`);
     }
     try{
-        const decodedToken = await jwt.verify(access_token, JWT_SECRET)
+        const decodedToken = await jwt.verify(admin_access_token, JWT_SECRET)
         req.user = decodedToken;
     }catch(err){
         return responseUtils.validationErrorResponse(res, err)
