@@ -40,6 +40,9 @@ app.use('/api/v1/news', NEWSRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/file', filesRouter);
 
+app.use(express.static(path.join(__dirname, '../', 'file-storage'))) 
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

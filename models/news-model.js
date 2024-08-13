@@ -6,10 +6,9 @@ const newsSchema = new schema({
     description:{type:'String', required: true},
     category:{type:'String', required: true},
     language:{type:'String', required: true},
-    date: {type:'Date', required: false, default: null},
-    time: {type:'Date', required: false, default: null},
     image: {
                 type: mongoose.Schema.Types.ObjectId,
+                ref: 'files'
             },
     isDisable: {type:'Boolean', required: false, default: false},
     video_link:{type:"String", required: false, default:''},

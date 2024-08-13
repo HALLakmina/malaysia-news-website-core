@@ -34,9 +34,12 @@ const findByIdAll = async (id)=>{
     }
 }
 
-const findByQueryWithPagination = async (search, category, language, pagination, sort) => {
-    try{        
-        const news = await NEWS.find({...search, isDisable: false, category: category, language:language})
+const findByQueryWithPagination = async (search, isNotAdmin, category, language, pagination, sort) => {
+    try{
+        const isDisableQuery = isNotAdmin ? {isDisable: false}:{}
+        const categoryQuery = category ? {category: category}:{}
+        const languageQuery = language ? {language: language}:{}
+        const news = await NEWS.find({...search, ...isDisableQuery,  ...categoryQuery, ...languageQuery})
                                         .sort(sort)
                                         .skip(pagination.skip)
                                         .limit(pagination.limit)
@@ -45,6 +48,17 @@ const findByQueryWithPagination = async (search, category, language, pagination,
         return news
     }catch(err){
         throw err;
+    }
+}
+
+const newsCount = async (isNotAdmin)=>{
+    try{
+        const isDisableQuery = isNotAdmin ? {isDisable: false}:{}
+        const count =  await NEWS.countDocuments({...isDisableQuery}).exec()
+        return count
+    }
+    catch(error){
+        throw error
     }
 }
 
@@ -78,6 +92,7 @@ module.exports = {
     findByCategoryNotDisable,
     findByIdAll,
     findByQueryWithPagination,
+    newsCount,
     updateById,
     deleteById
 }
