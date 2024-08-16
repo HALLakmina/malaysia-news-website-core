@@ -18,8 +18,6 @@ const newsReqBodyValidatorConfig = {
     category: Joi.string().required(),
     language: Joi.string().required(),
     attachments: Joi.array().items(Joi.string()),
-    date: Joi.date().allow(null),
-    time: Joi.date().allow(null),
     image: Joi.string().default('').empty(''),
     video_link: Joi.string().default('').empty('')
 }
@@ -31,7 +29,6 @@ const newsReqQuerySortValidatorConfig = {
     sortOrder: Joi.string().valid('ASC','DESC').default('ASC').empty(''),
     language: Joi.string().default('').empty(''),
     category: Joi.string().default('').empty(''),
-
 }
 
 const newsReqPathValidatorConfig = {

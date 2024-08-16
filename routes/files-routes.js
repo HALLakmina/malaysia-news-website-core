@@ -50,11 +50,15 @@ router.post('/image-upload', author, upload.single('file'), async (req, res, nex
     }
 })
 
-router.delete('/image-delete', author, async (req, res, next) => {
+const deleteFile = multer({
+     dest: '../file-storage/uploads/original_images'
+  });
+
+router.patch('/image-delete', author, deleteFile.single('file'), async (req, res, next) => {
     try {
         const {_id, storageName, thumbnailStorageName} = req.body;
         const userId = req.user.id;
-        const isFoundProgram = await filesService.findById(_id.$oid);
+        const isFoundProgram = await filesService.findById(_id);
         if (!isFoundProgram) {
             return responseUtils.notFoundResponse(res,responseMessages.common.notFound('Image'));
         }else{
@@ -80,6 +84,6 @@ router.delete('/image-delete', author, async (req, res, next) => {
     } catch (error) {
         return responseUtils.interServerErrorResponse(res);
     }
-    });
+});
 
 module.exports = router;
