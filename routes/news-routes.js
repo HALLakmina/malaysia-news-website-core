@@ -25,6 +25,33 @@ router.post('/', Validator.validatorReqBody(ValidatorConfig.newsReqBodyValidator
     }
 })
 
+
+router.get('/news-count', isAuthor, async (req, res, next) => {
+    const isNotAdmin =  !isAuthor
+    try{
+        const newsCount = await newsService.newsCount(isNotAdmin)
+        return responseUtils.okResponse(res, newsCount)
+    }
+    catch(error){
+        return responseUtils.interServerErrorResponse(res)
+    }
+})
+
+router.get('/:id', async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const isFoundNews = await newsService.findByIdAll(id);
+        if (isFoundNews) {
+            return responseUtils.okResponse(res, isFoundNews);
+        }else{
+            return responseUtils.notFoundResponse(res,responseMessages.common.notFound('News'));
+        } 
+    }
+    catch (e) {
+        return responseUtils.interServerErrorResponse(res);
+    }
+})
+
 router.get('/', Validator.validatorReqQuery(ValidatorConfig.newsReqQuerySortValidatorConfig), isAuthor, async (req, res, next) => {
     const searchObj = queryExtractor.getSearchObj(req.query)  
     const paginationObj = queryExtractor.getPaginationObj(req.query)
@@ -40,16 +67,6 @@ router.get('/', Validator.validatorReqQuery(ValidatorConfig.newsReqQuerySortVali
     }
 })
 
-router.get('/news-count', isAuthor, async (req, res, next) => {
-    const isNotAdmin =  !isAuthor
-    try{
-        const newsCount = await newsService.newsCount(isNotAdmin)
-        return responseUtils.okResponse(res, newsCount)
-    }
-    catch(error){
-        return responseUtils.interServerErrorResponse(res)
-    }
-})
 
 
 router.put('/:id',Validator.validatorReqPath(ValidatorConfig.newsReqPathValidatorConfig), Validator.validatorReqBody(ValidatorConfig.newsReqBodyValidatorConfig), author, async (req, res, next) => {
@@ -57,8 +74,8 @@ try {
     const id = req.params.id;
     const userId = req.user.id;
     const payload = req.body;
-    const isFoundProgram = await newsService.findByIdAll(id);
-    if (!isFoundProgram) {
+    const isFoundNews = await newsService.findByIdAll(id);
+    if (!isFoundNews) {
         return responseUtils.notFoundResponse(res,responseMessages.common.notFound('News'));
     }else{
     await newsService.updateById(id, payload, userId)
