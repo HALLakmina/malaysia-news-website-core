@@ -41,12 +41,12 @@ app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/file', filesRouter);
 
 // Serve Static Files
-app.use(express.static(path.join(__dirname, '../malay-sri', 'build')))
+app.use(express.static(path.join(__dirname, '../malaysia-news-website-portal', 'build')))
 app.use(express.static(path.join(__dirname, '../', 'file-storage'))) 
 
 // All Request to React app
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../malay-sri', 'build', "index.html"))
+  res.sendFile(path.join(__dirname, '../malaysia-news-website-portal', 'build', "index.html"))
 })
 
 // catch 404 and forward to error handler
