@@ -8,6 +8,11 @@ const common = {
     notFound: (resource = 'Resource') => `${resource} Not Found.`,
 }
 
+const contactUs = {
+    created: `Your Request Sent Successfully. We Will Contact You Soon.`
+}
+
 module.exports = {
     common,
+    contactUs
 }

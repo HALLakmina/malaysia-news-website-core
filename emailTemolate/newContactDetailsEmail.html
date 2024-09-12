@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaleSri</title>
+    <style>
+        body{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "calibri"
+        }
+        .email-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #dee8f4;
+        }
+        .email-header-box{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .email-header-box-image{
+            width:auto;
+            height: 30px;
+        }
+        .email-main{
+            padding: 20px;
+            font-size: 16px;
+        }
+        .email-footer{
+            padding: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <header class="email-header">
+        <div class="email-header-box">
+            <img src="./message-icon.png" alt="" class="email-header-box-image"/>
+            <H1>MaleSri</H1>
+        </div>
+    </header>
+    <main class="email-main">
+        <p>Hey Nayanangith</p>
+        <p>
+            Our user has send a message true MaleSri contact us form
+        </p>
+        <p>{{FIRST_NAME}} {{LAST_NAME}}</p>
+        <p>{{EMAIL}}</p>
+        <p>{{NUMBER}}</p>
+        <p>{{MESSAGE}}</p>
+        <hr>
+    </main>
+    <footer class="email-footer">
+        <p>Action Required:</p>
+        <p>
+            Please review the client's message and respond promptly to ensure excellent customer service. If you need further assistance or have any questions, feel free to reach out to the support team. Thank you for your attention to this matter.
+        </p>
+        <br>
+        <p>Best regards,</p>
+        <p>Thank you.</p>
+    </footer>
+</body>
+</html>
