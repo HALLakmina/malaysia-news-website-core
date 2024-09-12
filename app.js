@@ -14,6 +14,8 @@ var usersRouter = require('./routes/users');
 var NEWSRouter = require('./routes/news-routes');
 var adminRouter = require('./routes/admin-routes')
 var filesRouter = require('./routes/files-routes')
+var contactUs = require('./routes/contact-us')
+
 var app = express();
 app.use(cors());
 
@@ -39,6 +41,7 @@ app.use('/api/v1/health-check', indexRouter)
 app.use('/users', usersRouter);
 app.use('/api/v1/news', NEWSRouter);
 app.use('/api/v1/admin', adminRouter);
+app.use('/api/v1/contact-us', contactUs);
 app.use('/api/v1/file', filesRouter);
 
 // Serve Static Files

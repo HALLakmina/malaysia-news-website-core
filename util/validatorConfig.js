@@ -39,11 +39,20 @@ const newsReqBodyPatchValidatorConfig = {
     isDisable: Joi.boolean().default(false)
 }
 
+const contactUsReqBodyValidatorConfig ={
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    email: Joi.string().email().required(),
+    phoneNumber: Joi.string().required(),
+    message: Joi.string(),
+}
+
 module.exports ={
     createAdminReqBodyValidatorConfig,
     signInAdminReqBodyValidatorConfig,
     newsReqBodyValidatorConfig, 
     newsReqQuerySortValidatorConfig,
     newsReqPathValidatorConfig,
-    newsReqBodyPatchValidatorConfig
+    newsReqBodyPatchValidatorConfig,
+    contactUsReqBodyValidatorConfig
 }
