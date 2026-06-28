@@ -1,39 +1,16 @@
-const Files = require('../models/files-model')
+const filesRepository = require('../repositories/files-repository')
 
-const create = async (data, userId) => {
-    try{        
-        const createdBy = userId;
-        const updatedBy = createdBy;
-        const newFile = new Files({ ...data, createdBy, updatedBy});
-        await newFile.save();
-        return newFile;        
-    }catch(err){
-        throw err;
-    }
+const create = (data, userId) => {
+    const createdBy = userId
+    const updatedBy = createdBy
+    return filesRepository.create({ ...data, createdBy, updatedBy })
 }
 
-const findById = async (id)=>{
-    try{
-        const news = await Files.findOne({_id:id}).exec()
-        return  news        
-    }
-    catch(error){
-        throw error
-    }
-}
+const findById = (id) => filesRepository.findOne({ _id: id })
 
-const deleteById = async (id, userId) => {
-    try{
-        const deleteFile = await Files.findOneAndDelete(
-            { _id: id }
-        ).exec();
-        return deleteFile
-    }catch(err){
-        throw err;
-    }
-}
+const deleteById = (id) => filesRepository.findOneAndDelete({ _id: id })
 
-module.exports = { 
+module.exports = {
     create,
     findById,
     deleteById

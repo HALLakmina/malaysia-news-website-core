@@ -1,27 +1,18 @@
-const { hashPassword } = require ('../util/hash')
-const Admin = require('../models/admin-model')
+const bcrypt = require('bcrypt')
+const { hashPassword } = require('../util/hash')
+const { generateJwtToken } = require('../util/generateJwtToken')
+const adminRepository = require('../repositories/admin-repository')
 
+const findAdminByEmail = (email) => adminRepository.findOne({ email })
 
-const findAdminByEmail = async (email) =>{
-    try{
-        const admin = await Admin.findOne({email})
-        return admin
-    }
-    catch(error){
-        throw admin
-    }
+const createAdmin = async (payload) => {
+    const { firstName, lastName, email, password } = payload
+    const hash_Password = await hashPassword(password)
+    await adminRepository.create({ firstName, lastName, email, password: hash_Password })
 }
 
-const createAdmin = async (payload) =>{
-    try{
-        const { firstName, lastName, email, password } = payload;
-        const hash_Password = await hashPassword(password)
-        const addAdmin = new Admin({firstName, lastName, email, password: hash_Password});
-        await addAdmin.save();
-    }
-    catch(error){
-        throw error
-    }
-}
+const comparePassword = (password, hash) => bcrypt.compare(password, hash)
 
-module.exports = { findAdminByEmail, createAdmin }
+const generateToken = (email, password) => generateJwtToken(email, password)
+
+module.exports = { findAdminByEmail, createAdmin, comparePassword, generateToken }

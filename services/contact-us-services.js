@@ -1,13 +1,5 @@
-const ContactUs = require('../models/contact-us-models');
+const contactUsRepository = require('../repositories/contact-us-repository')
 
-const create = async (data) => {
-    try{
-        const newContactUs = new ContactUs(data);
-        await newContactUs.save();    
-        return newContactUs;
-    } catch(err){        
-        throw err;
-    }
-}
+const create = (data) => contactUsRepository.create(data)
 
 module.exports = { create }
