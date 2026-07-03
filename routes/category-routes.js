@@ -12,20 +12,10 @@ router.post('/', Validator.validatorReqBody(ValidatorConfig.categoryReqBodyValid
 
 router.get('/', categoryController.getAll)
 
-router.get('/:category', Validator.validatorReqPath(ValidatorConfig.categoryReqPathValidatorConfig), categoryController.getByValue)
+router.get('/:id', Validator.validatorReqPath(ValidatorConfig.newsReqPathValidatorConfig), categoryController.getById)
 
-router.put('/:category', Validator.validatorReqPath(ValidatorConfig.categoryReqPathValidatorConfig), Validator.validatorReqBody(ValidatorConfig.categoryReqBodyValidatorConfig), author, categoryController.updateByValue)
+router.put('/:id', Validator.validatorReqPath(ValidatorConfig.newsReqPathValidatorConfig), Validator.validatorReqBody(ValidatorConfig.categoryReqBodyValidatorConfig), author, categoryController.updateById)
 
-router.delete('/:category', Validator.validatorReqPath(ValidatorConfig.categoryReqPathValidatorConfig), author, categoryController.deleteByValue)
-
-router.get('/:category/sub-category', Validator.validatorReqPath(ValidatorConfig.categoryReqPathValidatorConfig), categoryController.getSubCategories)
-
-router.post('/:category/sub-category', Validator.validatorReqPath(ValidatorConfig.categoryReqPathValidatorConfig), Validator.validatorReqBody(ValidatorConfig.subCategoryReqBodyValidatorConfig), author, categoryController.createSubCategory)
-
-router.get('/:category/sub-category/:subCategory', Validator.validatorReqPath(ValidatorConfig.subCategoryReqPathValidatorConfig), categoryController.getSubCategory)
-
-router.put('/:category/sub-category/:subCategory', Validator.validatorReqPath(ValidatorConfig.subCategoryReqPathValidatorConfig), Validator.validatorReqBody(ValidatorConfig.subCategoryReqBodyValidatorConfig), author, categoryController.updateSubCategory)
-
-router.delete('/:category/sub-category/:subCategory', Validator.validatorReqPath(ValidatorConfig.subCategoryReqPathValidatorConfig), author, categoryController.deleteSubCategory)
+router.delete('/:id', Validator.validatorReqPath(ValidatorConfig.newsReqPathValidatorConfig), author, categoryController.deleteById)
 
 module.exports = router;

@@ -7,9 +7,9 @@ const create = (data, userId) => {
 }
 
 const findByCategoryNotDisable = (category) =>
-    newsRepository.findOne({ category, isDisable: false }, 'image')
+    newsRepository.findOne({ category, isDisable: false }, 'image category sub_category')
 
-const findByIdAll = (id) => newsRepository.findOne({ _id: id }, 'image')
+const findByIdAll = (id) => newsRepository.findOne({ _id: id }, 'image category sub_category')
 
 const findByQueryWithPagination = (search, isNotAdmin, category, language, pagination, sort) => {
     const isDisableQuery = isNotAdmin ? { isDisable: false } : {}
@@ -20,7 +20,7 @@ const findByQueryWithPagination = (search, isNotAdmin, category, language, pagin
         sort,
         pagination.skip,
         pagination.limit,
-        'image'
+        'image category sub_category'
     )
 }
 
