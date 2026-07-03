@@ -22,6 +22,8 @@ router.get('/:category/sub-category', Validator.validatorReqPath(ValidatorConfig
 
 router.post('/:category/sub-category', Validator.validatorReqPath(ValidatorConfig.categoryReqPathValidatorConfig), Validator.validatorReqBody(ValidatorConfig.subCategoryReqBodyValidatorConfig), author, categoryController.createSubCategory)
 
+router.get('/:category/sub-category/:subCategory', Validator.validatorReqPath(ValidatorConfig.subCategoryReqPathValidatorConfig), categoryController.getSubCategory)
+
 router.put('/:category/sub-category/:subCategory', Validator.validatorReqPath(ValidatorConfig.subCategoryReqPathValidatorConfig), Validator.validatorReqBody(ValidatorConfig.subCategoryReqBodyValidatorConfig), author, categoryController.updateSubCategory)
 
 router.delete('/:category/sub-category/:subCategory', Validator.validatorReqPath(ValidatorConfig.subCategoryReqPathValidatorConfig), author, categoryController.deleteSubCategory)

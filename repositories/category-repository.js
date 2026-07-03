@@ -9,10 +9,14 @@ const findCategory = (filter) => Category.findOne(filter).exec()
 const findSubCategoryByCategory = (filter) => Category.findOne(filter).exec()
 
 const updateCategory = (filter, data) =>
-    Category.findOneAndUpdate(filter, data, { new: true }).exec()
+    Category.findOneAndUpdate(filter, { $set: data }, { new: true }).exec()
 
 const createSubCategory = (filter, subCategory) =>
-    Category.findOneAndUpdate(filter, { $push: { sub_categorys: subCategory } }, { new: true }).exec()
+    Category.findOneAndUpdate(
+        { ...filter, 'sub_categorys.value': { $ne: subCategory.value } },
+        { $push: { sub_categorys: subCategory } },
+        { new: true }
+    ).exec()
 
 const updateSubCategoryByCategory = (filter, data) =>
     Category.findOneAndUpdate(filter, {

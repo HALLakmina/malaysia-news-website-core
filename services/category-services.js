@@ -1,6 +1,10 @@
 const categoryRepository = require('../repositories/category-repository')
 
-const create = (data, userId) => {
+const create = async (data, userId) => {
+    const isExist = await categoryRepository.findCategory({ value: data.value })
+    if (isExist) {
+        throw new Error('CONFLICT')
+    }
     const createdBy = userId
     const updatedBy = createdBy
     return categoryRepository.create({ ...data, createdBy, updatedBy })
@@ -15,6 +19,12 @@ const getSubCategories = async (category) => {
     return foundCategory ? foundCategory.sub_categorys : null
 }
 
+const getSubCategory = async (category, subCategory) => {
+    const foundCategory = await categoryRepository.findSubCategoryByCategory({ value: category, 'sub_categorys.value': subCategory })
+    if (!foundCategory) return null
+    return foundCategory.sub_categorys.find(s => s.value === subCategory) || null
+}
+
 const createSubCategory = async (category, data, userId) => {
     const isExist = await categoryRepository.findCategory({ value: category })
     if (!isExist) {
@@ -22,7 +32,11 @@ const createSubCategory = async (category, data, userId) => {
     }
     const createdBy = userId
     const updatedBy = createdBy
-    return categoryRepository.createSubCategory({ value: category }, { ...data, createdBy, updatedBy })
+    const result = await categoryRepository.createSubCategory({ value: category }, { ...data, createdBy, updatedBy })
+    if (!result) {
+        throw new Error('CONFLICT')
+    }
+    return result
 }
 
 const updateCategory = async (category, data, userId) => {
@@ -38,6 +52,12 @@ const updateSubCategory = async (category, subCategory, data, userId) => {
     const isSubCategoryExist = await categoryRepository.findSubCategoryByCategory({ value: category, 'sub_categorys.value': subCategory })
     if (!isSubCategoryExist) {
         return null
+    }
+    if (data.value !== subCategory) {
+        const isDuplicate = await categoryRepository.findSubCategoryByCategory({ value: category, 'sub_categorys.value': data.value })
+        if (isDuplicate) {
+            throw new Error('CONFLICT')
+        }
     }
     const updatedBy = userId
     return categoryRepository.updateSubCategoryByCategory(
@@ -56,6 +76,7 @@ module.exports = {
     getAllCategory,
     getCategory,
     getSubCategories,
+    getSubCategory,
     createSubCategory,
     updateCategory,
     updateSubCategory,

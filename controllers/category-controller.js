@@ -10,6 +10,9 @@ const create = async (req, res, next) => {
         return responseUtils.createResponseWithJson(res, category)
     }
     catch (error) {
+        if (error.message === 'CONFLICT') {
+            return responseUtils.conflictErrorResponseMessageToJson(res, `Category with value '${req.body.value}' already exists.`)
+        }
         console.log(error)
         return responseUtils.interServerErrorResponse(res)
     }
@@ -51,6 +54,10 @@ const updateByValue = async (req, res, next) => {
         return responseUtils.updateResponse(res, responseMessages.common.updatedById('Category', category))
     }
     catch (error) {
+        if (error.code === 11000) {
+            return responseUtils.conflictErrorResponseMessageToJson(res, `Category with value '${req.body.value}' already exists.`)
+        }
+        console.log(error)
         return responseUtils.interServerErrorResponse(res)
     }
 }
@@ -63,6 +70,20 @@ const deleteByValue = async (req, res, next) => {
             return responseUtils.notFoundResponse(res, responseMessages.common.notFound('Category'))
         }
         return responseUtils.deleteResponse(res, responseMessages.common.deletedById('Category'))
+    }
+    catch (error) {
+        return responseUtils.interServerErrorResponse(res)
+    }
+}
+
+const getSubCategory = async (req, res, next) => {
+    try {
+        const { category, subCategory } = req.params
+        const foundSubCategory = await categoryService.getSubCategory(category, subCategory)
+        if (!foundSubCategory) {
+            return responseUtils.notFoundResponse(res, responseMessages.common.notFound('Sub Category'))
+        }
+        return responseUtils.okResponse(res, foundSubCategory)
     }
     catch (error) {
         return responseUtils.interServerErrorResponse(res)
@@ -95,6 +116,9 @@ const createSubCategory = async (req, res, next) => {
         return responseUtils.createResponseWithJson(res, updatedCategory)
     }
     catch (error) {
+        if (error.message === 'CONFLICT') {
+            return responseUtils.conflictErrorResponseMessageToJson(res, `Sub Category with value '${req.body.value}' already exists in this category.`)
+        }
         return responseUtils.interServerErrorResponse(res)
     }
 }
@@ -111,6 +135,9 @@ const updateSubCategory = async (req, res, next) => {
         return responseUtils.updateResponse(res, responseMessages.common.updatedById('Sub Category', subCategory))
     }
     catch (error) {
+        if (error.message === 'CONFLICT') {
+            return responseUtils.conflictErrorResponseMessageToJson(res, `Sub Category with value '${req.body.value}' already exists in this category.`)
+        }
         return responseUtils.interServerErrorResponse(res)
     }
 }
@@ -136,6 +163,7 @@ module.exports = {
     updateByValue,
     deleteByValue,
     getSubCategories,
+    getSubCategory,
     createSubCategory,
     updateSubCategory,
     deleteSubCategory
