@@ -16,6 +16,7 @@ const newsReqBodyValidatorConfig = {
     topic: Joi.string().required(),
     description: Joi.string().required(),
     category: Joi.string().required(),
+    sub_category: Joi.string().required(),
     language: Joi.string().required(),
     attachments: Joi.array().items(Joi.string()),
     image: Joi.string().default('').empty(''),
@@ -47,12 +48,35 @@ const contactUsReqBodyValidatorConfig ={
     message: Joi.string(),
 }
 
+const categoryReqBodyValidatorConfig = {
+    lable: Joi.string().required(),
+    value: Joi.string().required()
+}
+
+const categoryReqPathValidatorConfig = {
+    category: Joi.string().required()
+}
+
+const subCategoryReqBodyValidatorConfig = {
+    lable: Joi.string().required(),
+    value: Joi.string().required()
+}
+
+const subCategoryReqPathValidatorConfig = {
+    category: Joi.string().required(),
+    subCategory: Joi.string().required()
+}
+
 module.exports ={
     createAdminReqBodyValidatorConfig,
     signInAdminReqBodyValidatorConfig,
-    newsReqBodyValidatorConfig, 
+    newsReqBodyValidatorConfig,
     newsReqQuerySortValidatorConfig,
     newsReqPathValidatorConfig,
     newsReqBodyPatchValidatorConfig,
-    contactUsReqBodyValidatorConfig
+    contactUsReqBodyValidatorConfig,
+    categoryReqBodyValidatorConfig,
+    categoryReqPathValidatorConfig,
+    subCategoryReqBodyValidatorConfig,
+    subCategoryReqPathValidatorConfig
 }

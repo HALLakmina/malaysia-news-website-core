@@ -15,6 +15,7 @@ var NEWSRouter = require('./routes/news-routes');
 var adminRouter = require('./routes/admin-routes')
 var filesRouter = require('./routes/files-routes')
 var contactUs = require('./routes/contact-us')
+var categoryRouter = require('./routes/category-routes')
 
 var app = express();
 app.use(cors());
@@ -43,6 +44,7 @@ app.use('/api/v1/news', NEWSRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/contact-us', contactUs);
 app.use('/api/v1/file', filesRouter);
+app.use('/api/v1/category', categoryRouter);
 
 // Serve Static Files
 app.use(express.static(path.join(__dirname, '../malaysia-news-website-portal', 'build')))

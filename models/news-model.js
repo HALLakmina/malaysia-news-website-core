@@ -5,6 +5,7 @@ const newsSchema = new schema({
     topic:{type:'String', required: true},
     description:{type:'String', required: true},
     category:{type:'String', required: true},
+    sub_category:{type:'String', required: true},
     language:{type:'String', required: true},
     image: {
                 type: mongoose.Schema.Types.ObjectId,
